@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+    <h1 align="center">Página de introdução ao HTML</h1>
+
+
+    <form action="">
+        <input id="edtAluno" type="text" placeholder="Aluno">
+        <input id="edtMat" type="text" placeholder="Matricula">
+        <button class="btn btn-success" id="btnAdd" type="button">Adicionar</button>
+    </form>
+    <hr>
+    <h3>Lista de Alunos</h3>
+    <!--lsdkfjsldkfjsdk-->
+    <table id="alunostable" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Aluno</th>
+                <th>Matrícula</th>
+                <th>-</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Claudinei</td>
+                <td>3215465416</td>
+                <td>
+                    <a href="#" class="btn btn-primary">Editar</a>&nbsp;<a href="#" class="btn btn-danger">Remover</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Erine</td>
+                <td>654654985</td>
+                <td>
+                    <a href="#" class="btn btn-primary">Editar</a>&nbsp;<a href="#" class="btn btn-danger">Remover</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#btnAdd").click(function(){
+                $('#alunostable tbody').append("<tr><td>"+$("#edtAluno").val()+"</td><td>"+$("#edtMat").val()+"</td><td><a href=\"#\" class=\"btn btn-primary\">Editar</a>&nbsp;<a href=\"#\" class=\"btn btn-danger\">Remover</a></td></tr>");
+            });
+        });
+    </script>
+
+</body>
+</html>

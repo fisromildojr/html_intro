@@ -1,17 +1,29 @@
 <?php
 
+include_once "app/model/Cliente.php";
+include_once "app/controller/Conexao.php";
+
 if (isset($_POST['gravar'])){
-    $nome = $_POST['nome'];
-    $telefone = $_POST['telefone'];
-    $email = $_POST['email'];
+    $cliente = new \model\Cliente();
+    $cliente->setNome($_POST['nome']);
+    $cliente->setTelefone($_POST['telefone']);
+    $cliente->setEmail($_POST['email']);
 
     echo "Os dados informados foram: <br>";
-    echo "Nome: <b>$nome</b> <br>";
-    echo "Telefone: <b>$telefone</b> <br>";
-    echo "Email: <b>$email</b> <br>";
+    echo "Nome: <b>".$cliente->getNome()."</b> <br>";
+    echo "Telefone: <b>".$cliente->getTelefone()."</b> <br>";
+    echo "Email: <b>".$cliente->getEmail()."</b> <br>";
 
     $sql = "INSERT INTO cliente (nome, telefone, email) VALUES 
-                ('$nome', '$telefone', '$email')";
+                (:nome, :telefone, :email)";
+
+    $p_sql = \controller\Conexao::getInstance()->prepare($sql);
+    $p_sql->bindValue(":nome", $cliente->getNome());
+    $p_sql->bindValue(":telefone", $cliente->getTelefone());
+    $p_sql->bindValue(":email", $cliente->getEmail());
+
+    $p_sql->execute();
+
     echo $sql;
 }
 

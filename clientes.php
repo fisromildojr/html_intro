@@ -43,7 +43,8 @@ $listaClientes = \controller\ClienteController::getInstance()->retornaTodos();
                         echo "<td>".$cliente->getNome()."</td>";
                         echo "<td>".$cliente->getTelefone()."</td>";
                         echo "<td>".$cliente->getEmail()."</td>";
-                        echo "<td><a href='clientes.php?id=".$cliente->getId()."' class='btn btn-danger'>Excluir</a>&nbsp;<a href='#' class='btn btn-dark'>Editar</a></td>";
+                        echo "<td><a href='clientes.php?id=".$cliente->getId()."' class='btn btn-danger'>Excluir</a>&nbsp;
+                                <a href='cadastro.php?id=".$cliente->getId()."' class='btn btn-dark'>Editar</a></td>";
                         echo "</tr>";
                     }
                 ?>

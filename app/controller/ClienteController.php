@@ -22,7 +22,7 @@ class ClienteController{
         return self::$instance;
     }
 
-    public function inserir(Cliente $cliente){
+    private function inserir(Cliente $cliente){
         $sql = "INSERT INTO cliente (nome, telefone, email) VALUES 
                 (:nome, :telefone, :email)";
 
@@ -34,6 +34,27 @@ class ClienteController{
         return $p_sql->execute();
     }
 
+    private function alterar(Cliente $cliente){
+        $sql = "UPDATE cliente SET nome = :nome, telefone = :telefone, email = :email
+                WHERE id = :id";
+
+        $p_sql = $this->conexao->prepare($sql);
+        $p_sql->bindValue(":nome", $cliente->getNome());
+        $p_sql->bindValue(":telefone", $cliente->getTelefone());
+        $p_sql->bindValue(":email", $cliente->getEmail());
+        $p_sql->bindValue(":id", $cliente->getId());
+
+        return $p_sql->execute();
+    }
+
+    public function gravar(Cliente $cliente){
+        if ($cliente->getId() > 0){
+            return $this->alterar($cliente);
+        }else{
+            return $this->inserir($cliente);
+        }
+    }
+
     public function retornaTodos(){
         $lstCliente = array();
         $sql = "SELECT * FROM cliente ORDER BY nome";
@@ -43,6 +64,19 @@ class ClienteController{
             $lstCliente[] = $cliente;
         }
         return $lstCliente;
+    }
+
+    public function buscarCliente($id){
+        $cliente = new Cliente();
+        $sql = "SELECT * FROM cliente WHERE id = :id";
+        $p_sql = $this->conexao->prepare($sql);
+        $p_sql->bindValue(":id", $id);
+        $p_sql->execute();
+        $retornoSQL = $p_sql->fetchAll(\PDO::FETCH_ASSOC);
+        foreach ($retornoSQL as $row){
+            $cliente = $this->preencherDadosCliente($row);
+        }
+        return $cliente;
     }
 
     private function preencherDadosCliente($row){

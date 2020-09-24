@@ -1,7 +1,8 @@
 <?php
 
 include_once "app/model/Cliente.php";
-include_once "app/controller/Conexao.php";
+include_once "app/controller/ClienteController.php";
+
 
 if (isset($_POST['gravar'])){
     $cliente = new \model\Cliente();
@@ -9,22 +10,16 @@ if (isset($_POST['gravar'])){
     $cliente->setTelefone($_POST['telefone']);
     $cliente->setEmail($_POST['email']);
 
-    echo "Os dados informados foram: <br>";
+    /*echo "Os dados informados foram: <br>";
     echo "Nome: <b>".$cliente->getNome()."</b> <br>";
     echo "Telefone: <b>".$cliente->getTelefone()."</b> <br>";
-    echo "Email: <b>".$cliente->getEmail()."</b> <br>";
+    echo "Email: <b>".$cliente->getEmail()."</b> <br>";*/
 
-    $sql = "INSERT INTO cliente (nome, telefone, email) VALUES 
-                (:nome, :telefone, :email)";
+    if (\controller\ClienteController::getInstance()->inserir($cliente)){
+        header('Location: clientes.php');
+    }
 
-    $p_sql = \controller\Conexao::getInstance()->prepare($sql);
-    $p_sql->bindValue(":nome", $cliente->getNome());
-    $p_sql->bindValue(":telefone", $cliente->getTelefone());
-    $p_sql->bindValue(":email", $cliente->getEmail());
-
-    $p_sql->execute();
-
-    echo $sql;
+    //echo $sql;
 }
 
 ?>
@@ -55,6 +50,7 @@ if (isset($_POST['gravar'])){
             </div>
             <div class="form-group">
                 <button class="btn btn-success" type="submit" name="gravar">Gravar</button>
+                <a href="clientes.php" class="btn btn-danger">Cancelar</a>
             </div>
 
         </form>
